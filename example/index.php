@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-use FreeNewsAPI\NewsAPI;
+use AllNewsAPI\NewsAPI;
 
 $newsApi = new NewsAPI('21438009-686f-4ebc-988f-146e70c4792b', [
     'baseUrl' => 'http://localhost:8080'
@@ -12,6 +12,16 @@ $newsApi = new NewsAPI('21438009-686f-4ebc-988f-146e70c4792b', [
 try {
     $results = $newsApi->search([]);
     print_r($results);
+} catch (NewsAPIException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
+echo "\n\n--- Headlines Example ---\n\n";
+
+// Simple headlines
+try {
+    $headlines = $newsApi->headlines([]);
+    print_r($headlines);
 } catch (NewsAPIException $e) {
     echo "Error: " . $e->getMessage();
 }

@@ -1,12 +1,12 @@
 <?php
 /**
- * FreeNewsAPI SDK - A simple PHP wrapper for the Free News API
+ * AllNewsAPI SDK - A simple PHP wrapper for the Free News API
  * 
- * @author FreeNewsAPI
+ * @author AllNewsAPI
  * @version 1.0.0
  */
 
-namespace FreeNewsAPI;
+namespace AllNewsAPI;
 
 class NewsAPI
 {
@@ -24,6 +24,11 @@ class NewsAPI
      * @var string The search endpoint URL
      */
     private $searchEndpoint;
+    
+    /**
+     * @var string The headlines endpoint URL
+     */
+    private $headlinesEndpoint;
 
     /**
      * Create a new instance of the NewsAPI client
@@ -38,17 +43,19 @@ class NewsAPI
         }
 
         $this->apiKey = $apiKey;
-        $this->baseUrl = $config['baseUrl'] ?? "https://api.freenewsapi.com";
+        $this->baseUrl = $config['baseUrl'] ?? "https://api.allnewsapi.com";
         $this->searchEndpoint = "{$this->baseUrl}/v1/search";
+        $this->headlinesEndpoint = "{$this->baseUrl}/v1/headlines";
     }
 
     /**
      * Build the URL with query parameters for the API request
-     * 
-     * @param array $params Query parameters for the search
+     *
+     * @param string $endpoint The endpoint URL to use
+     * @param array $params Query parameters for the request
      * @return string The complete URL for the API request
      */
-    private function buildUrl(array $params = []): string
+    private function buildUrl(string $endpoint, array $params = []): string
     {
         // Add API key to parameters
         $params['apikey'] = $this->apiKey;
@@ -63,19 +70,20 @@ class NewsAPI
         // Build query string
         $queryString = http_build_query($params);
         
-        return "{$this->searchEndpoint}?{$queryString}";
+        return "{$endpoint}?{$queryString}";
     }
 
     /**
      * Make a request to the API
-     * 
+     *
+     * @param string $endpoint The endpoint URL to use
      * @param array $params Query parameters for the request
      * @return mixed The API response
      * @throws NewsAPIException If the API request fails
      */
-    private function makeRequest(array $params = [])
+    private function makeRequest(string $endpoint, array $params = [])
     {
-        $url = $this->buildUrl($params);
+        $url = $this->buildUrl($endpoint, $params);
         
         // Initialize cURL session
         $curl = curl_init();
@@ -172,7 +180,7 @@ class NewsAPI
 
     /**
      * Search for news articles
-     * 
+     *
      * @param array $options Search options
      * @return mixed Search results
      */
@@ -187,7 +195,27 @@ class NewsAPI
             $options['endDate'] = $this->formatDate($options['endDate']);
         }
         
-        return $this->makeRequest($options);
+        return $this->makeRequest($this->searchEndpoint, $options);
+    }
+
+    /**
+     * Get news headlines
+     *
+     * @param array $options Headlines options
+     * @return mixed Headlines results
+     */
+    public function headlines(array $options = [])
+    {
+        // Format dates if provided
+        if (isset($options['startDate'])) {
+            $options['startDate'] = $this->formatDate($options['startDate']);
+        }
+        
+        if (isset($options['endDate'])) {
+            $options['endDate'] = $this->formatDate($options['endDate']);
+        }
+        
+        return $this->makeRequest($this->headlinesEndpoint, $options);
     }
 }
 

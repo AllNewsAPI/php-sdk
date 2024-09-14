@@ -1,19 +1,19 @@
 {
-    "name": "freenewsapi/php-sdk",
+    "name": "allnewsapi/php-sdk",
     "description": "A PHP SDK for the Free News API",
     "type": "library",
     "version": "1.0.0",
-    "homepage": "https://freenewsapi.com/documentation",
+    "homepage": "https://allnewsapi.com/docs",
     "keywords": [
-        "freenewsapi",
+        "allnewsapi",
         "news api", 
         "news sdk"
     ],
     "license": "MIT",
     "authors": [
         {
-            "name": "FreeNewsAPI",
-            "email": "contact@freenewsapi.com"
+            "name": "AllNewsAPI",
+            "email": "contact@allnewsapi.com"
         }
     ],
     "require": {
@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "FreeNewsAPI\\": "/"
+            "AllNewsAPI\\": "/"
         }
     }
 }

@@ -51,6 +51,7 @@ pids
 
 commit.sh 
 publish.txt
+publish.sh
 
 # php
 /vendor/

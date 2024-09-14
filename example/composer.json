@@ -1,6 +1,6 @@
 {
     "require": {
         "psr/log": "^3.0",
-        "freenewsapi/php-sdk": "@dev"
+        "allnewsapi/php-sdk": "@dev"
     }
 }
